@@ -1,0 +1,599 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#0F0F10" />
+<title>MM_LANCIO_MAG26 — Roadmap Attività</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#0F0F10; --gold:#C9995C; --gold-hover:#D8B27A; --gold-soft:rgba(201,153,92,.18);
+    --surface:#141416; --card:#1B1B1E; --border:rgba(245,245,247,.12);
+    --text-strong:rgba(245,245,247,1); --text:rgba(245,245,247,.88); --text-muted:rgba(245,245,247,.55);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--bg); color:var(--text);
+    font-family:'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size:15px; line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+  }
+  h1,h2,h3,.serif{font-family:'Playfair Display', serif; color:var(--text-strong); font-weight:600; letter-spacing:-.01em}
+  .container{max-width:1100px; margin:0 auto; padding:24px 18px 80px}
+  /* Header */
+  header.hero{
+    border-bottom:1px solid var(--border); padding:36px 18px 28px; background:
+      radial-gradient(900px 200px at 50% -10%, rgba(201,153,92,.10), transparent 60%);
+  }
+  header .wrap{max-width:1100px; margin:0 auto}
+  .eyebrow{color:var(--gold); font-size:11px; letter-spacing:.18em; text-transform:uppercase; font-weight:600; margin-bottom:10px}
+  h1{font-size:clamp(28px,5vw,42px); margin:0 0 8px}
+  .subtitle{color:var(--text-muted); font-size:14px; margin:0 0 18px}
+  /* Stats bar */
+  .stats{display:grid; grid-template-columns:repeat(2,1fr); gap:8px; margin-top:14px}
+  @media(min-width:640px){ .stats{grid-template-columns:repeat(4,1fr)} }
+  .stat{background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:12px 14px}
+  .stat .num{font-family:'Playfair Display', serif; font-size:24px; color:var(--text-strong); line-height:1}
+  .stat .lbl{font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:.1em; margin-top:6px}
+  .stat .num .gold{color:var(--gold)}
+  /* Filters */
+  .filters{
+    display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin:18px 0 0;
+    padding:14px; background:var(--surface); border:1px solid var(--border); border-radius:12px;
+  }
+  .filters label{font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:.1em; margin-right:6px; font-weight:600}
+  .chip{
+    display:inline-flex; align-items:center; gap:6px;
+    background:rgba(0,0,0,.3); border:1px solid var(--border);
+    color:var(--text); border-radius:999px; padding:6px 12px; font-size:13px;
+    cursor:pointer; user-select:none; transition:all .15s ease;
+  }
+  .chip:hover{border-color:var(--gold); color:var(--text-strong)}
+  .chip.active{background:var(--gold-soft); border-color:var(--gold); color:#E2BE85}
+  /* User bar */
+  .userbar{
+    display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+    padding:10px 14px; background:rgba(201,153,92,.06);
+    border:1px solid rgba(201,153,92,.25); border-radius:10px; margin-top:14px;
+  }
+  .userbar .lbl{font-size:12px; color:var(--text-muted)}
+  .userbar select{font-size:13px; padding:5px 10px}
+  .userbar .me{color:var(--gold); font-weight:600}
+  /* Phase section */
+  .phase{margin-top:28px; border-top:1px solid var(--border); padding-top:22px}
+  .phase:first-of-type{border-top:none; padding-top:0}
+  .phase-head{display:flex; align-items:baseline; justify-content:space-between; gap:12px; margin-bottom:14px}
+  .phase-title{margin:0; font-size:22px; display:flex; align-items:center; gap:10px}
+  .phase-title .dot{width:8px; height:8px; border-radius:50%; background:var(--gold)}
+  .phase-meta{font-size:12px; color:var(--text-muted); white-space:nowrap}
+  /* Task card */
+  .task{
+    background:var(--card); border:1px solid var(--border); border-radius:12px;
+    padding:14px 16px; margin-bottom:10px; transition:all .15s ease;
+    display:grid; grid-template-columns:auto 1fr; gap:12px; align-items:start;
+  }
+  .task:hover{border-color:rgba(201,153,92,.35)}
+  .task.done{opacity:.45}
+  .task.done .task-title{text-decoration:line-through}
+  .task-check{
+    appearance:none; -webkit-appearance:none;
+    width:22px; height:22px; border-radius:6px;
+    border:1.5px solid var(--border); background:rgba(0,0,0,.3);
+    cursor:pointer; margin-top:2px; flex-shrink:0; transition:all .15s ease;
+    display:grid; place-items:center;
+  }
+  .task-check:hover{border-color:var(--gold)}
+  .task-check:checked{background:var(--gold); border-color:var(--gold)}
+  .task-check:checked::after{content:'✓'; color:#0F0F10; font-weight:800; font-size:14px; line-height:1}
+  .task-body{min-width:0}
+  .task-title{
+    font-size:15px; color:var(--text-strong); margin:0 0 8px; font-weight:500; line-height:1.4;
+    word-wrap:break-word;
+  }
+  .task-meta{display:flex; flex-wrap:wrap; gap:6px; align-items:center; margin-bottom:10px}
+  /* Resp badge */
+  .resp{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:3px 9px; border-radius:999px; border:1px solid;
+    font-size:11px; font-weight:600; letter-spacing:.02em;
+    cursor:pointer;
+  }
+  .resp-Michele  {background:rgba(201,153,92,.14);  color:#E2BE85; border-color:rgba(201,153,92,.4)}
+  .resp-Sandra   {background:rgba(120,160,255,.14); color:#99B8FF; border-color:rgba(120,160,255,.4)}
+  .resp-Miriam   {background:rgba(255,140,180,.14); color:#FFA9C5; border-color:rgba(255,140,180,.4)}
+  .resp-Ilaria   {background:rgba(140,220,180,.14); color:#9BE5BD; border-color:rgba(140,220,180,.4)}
+  .resp-Jessica  {background:rgba(200,170,255,.14); color:#C8A8FF; border-color:rgba(200,170,255,.4)}
+  .resp-none     {background:rgba(255,255,255,.05); color:var(--text-muted); border-color:var(--border)}
+  /* Inputs row */
+  .inputs{
+    display:grid; grid-template-columns:1fr; gap:8px; margin-top:8px;
+  }
+  @media(min-width:640px){
+    .inputs{grid-template-columns:140px 100px 100px 1fr}
+  }
+  .field{display:flex; flex-direction:column; gap:4px}
+  .field label{font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:.1em; font-weight:600}
+  .field input, .field select, .field textarea{
+    background:rgba(0,0,0,.35); border:1px solid var(--border);
+    color:var(--text-strong); border-radius:6px; padding:6px 10px;
+    font-family:'Inter', sans-serif; font-size:13px; width:100%;
+    transition:border-color .15s ease;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus{
+    outline:none; border-color:var(--gold);
+  }
+  .field textarea{resize:vertical; min-height:36px; font-size:13px}
+  .field input[type=number]::-webkit-inner-spin-button{opacity:.5}
+  /* Actions area */
+  .actions{display:flex; gap:8px; margin-top:14px; padding-top:14px; border-top:1px dashed var(--border); flex-wrap:wrap}
+  .btn{
+    display:inline-flex; align-items:center; gap:6px;
+    background:var(--gold); color:#0F0F10; border:none;
+    padding:10px 18px; border-radius:8px; font-weight:600; font-size:13px;
+    cursor:pointer; font-family:'Inter', sans-serif; transition:all .15s ease;
+  }
+  .btn:hover{background:var(--gold-hover)}
+  .btn.ghost{background:transparent; color:var(--text); border:1px solid var(--border)}
+  .btn.ghost:hover{border-color:var(--gold); color:var(--gold)}
+  .btn.danger{background:transparent; color:#FF8C8C; border:1px solid rgba(255,140,140,.3); padding:6px 12px; font-size:12px}
+  .btn.danger:hover{background:rgba(255,140,140,.1); border-color:rgba(255,140,140,.6)}
+  /* Add task box */
+  .add-task{
+    background:var(--surface); border:1px dashed rgba(201,153,92,.4); border-radius:12px;
+    padding:14px 16px; margin-top:10px; cursor:pointer; text-align:center;
+    color:var(--gold); font-weight:500; transition:all .15s ease;
+  }
+  .add-task:hover{background:var(--gold-soft); border-color:var(--gold)}
+  /* Footer */
+  footer{margin-top:60px; padding-top:24px; border-top:1px solid var(--border); color:var(--text-muted); font-size:12px; text-align:center}
+  footer a{color:var(--gold); text-decoration:none}
+  /* Hidden */
+  .hidden{display:none !important}
+  /* Reset persist button */
+  .reset-btn{
+    background:transparent; border:1px solid var(--border); color:var(--text-muted);
+    padding:6px 12px; border-radius:6px; font-size:12px; cursor:pointer; font-family:inherit;
+  }
+  .reset-btn:hover{color:#FF8C8C; border-color:rgba(255,140,140,.4)}
+  @media (max-width:640px){
+    .container{padding:18px 14px 60px}
+    .task{padding:12px}
+    h1{font-size:26px}
+    .phase-title{font-size:18px}
+  }
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">ArchPrime · Marketing</div>
+    <h1>MM_LANCIO_MAG26 — Roadmap Attività</h1>
+    <p class="subtitle">Lista delle attività del lancio (Maggio 2026). Modifica liberamente i campi: tutto si salva nel tuo browser.</p>
+    <div class="userbar">
+      <span class="lbl">Tu sei:</span>
+      <select id="currentUser">
+        <option value="">— seleziona —</option>
+        <option>Michele</option>
+        <option>Sandra</option>
+        <option>Miriam</option>
+        <option>Ilaria</option>
+        <option>Jessica</option>
+      </select>
+      <span id="userTag" class="me"></span>
+      <span style="flex:1"></span>
+      <button class="reset-btn" id="resetBtn" title="Cancella tutte le modifiche locali">↺ Reset locale</button>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <!-- Stats -->
+  <div class="stats" id="stats"></div>
+
+  <!-- Filters -->
+  <div class="filters">
+    <label>Responsabile:</label>
+    <span class="chip active" data-filter="resp" data-value="all">Tutti</span>
+    <span class="chip" data-filter="resp" data-value="Michele">Michele</span>
+    <span class="chip" data-filter="resp" data-value="Sandra">Sandra</span>
+    <span class="chip" data-filter="resp" data-value="Miriam">Miriam</span>
+    <span class="chip" data-filter="resp" data-value="Ilaria">Ilaria</span>
+    <span class="chip" data-filter="resp" data-value="Jessica">Jessica</span>
+  </div>
+  <div class="filters" style="margin-top:8px">
+    <label>Stato:</label>
+    <span class="chip active" data-filter="status" data-value="all">Tutte</span>
+    <span class="chip" data-filter="status" data-value="open">Da fare</span>
+    <span class="chip" data-filter="status" data-value="done">Fatte</span>
+  </div>
+
+  <!-- Phases -->
+  <div id="phases"></div>
+
+  <footer>
+    <p>Roadmap creata per la revisione del team — <strong>MM_LANCIO_MAG26</strong>.<br>
+    Le modifiche restano nel browser di chi le inserisce. Per condividere, fare uno screenshot o esportare in PDF.</p>
+  </footer>
+</main>
+
+<script>
+/* ============= DATA ============= */
+const PHASES = [
+  { id: 'setup',      name: '1 · Setup / Preparazione',     dot: '#C9995C' },
+  { id: 'capture',    name: '2 · Capture',                  dot: '#C9995C' },
+  { id: 'warmup',     name: '3 · Warm-Up',                  dot: '#C9995C' },
+  { id: 'pursuit',    name: '4 · CPL / Pursuit',            dot: '#C9995C' },
+  { id: 'conversion', name: '5 · Conversion / Vendita',     dot: '#C9995C' },
+  { id: 'post',       name: '6 · Post-Lancio',              dot: '#C9995C' },
+];
+
+/* 99 task (alcune raggruppate logicamente) */
+const SEED = [
+  // SETUP
+  { id:'t01', phase:'setup', title:'📄 Preparare l\'offerta — bonus, deliverable e prezzi', date:'2026-05-08', resp:'Michele' },
+  { id:'t02', phase:'setup', title:'📄 Revisione e aggiornamento dell\'avatar', date:'2026-05-08', resp:'Michele' },
+  { id:'t03', phase:'setup', title:'📁 Organizzare le cartelle del lancio su Drive', date:'2026-05-08', resp:'Sandra' },
+  { id:'t04', phase:'setup', title:'🛒 Revisione dei prodotti upsell', date:'2026-05-08', resp:'Michele' },
+  { id:'t05', phase:'setup', title:'👀 Organizzare le testimonianze da utilizzare nel lancio (su Drive)', date:'2026-05-08', resp:'Michele' },
+  { id:'t06', phase:'setup', title:'Correggere il valore default_opportunity_value (in APR26 era €948 — Lovarch Studio): impostare l\'importo corretto per il lancio', date:'2026-05-08', resp:'Sandra' },
+  { id:'t07', phase:'setup', title:'Selezionare le domande per il modulo Raggi-X dei lead', date:'2026-05-08', resp:'Sandra' },
+  { id:'t08', phase:'setup', title:'✅ Verificare i budget disponibili e i target del lancio (totale, settimanale, giornaliero)', date:'2026-05-08', resp:'Michele' },
+  { id:'t09', phase:'setup', title:'Comprendere l\'automazione Claude per l\'ottimizzazione delle campagne', date:'2026-05-08', resp:'Sandra', effort:6, result:10 },
+
+  // CAPTURE
+  { id:'t10', phase:'capture', title:'💬 Stesura testi messaggi ed email · Lead Generation', date:'2026-05-12', resp:'Miriam' },
+  { id:'t11', phase:'capture', title:'✉️ Programmazione email e messaggi · Lead Generation', date:'2026-05-12', resp:'Miriam' },
+  { id:'t12', phase:'capture', title:'💬 Creare la pagina del modulo Raggi-X (conoscenza dei lead) e inserirla nella thank-you page', date:'2026-05-09', resp:'Michele' },
+  { id:'t13', phase:'capture', title:'💬 Creare i gruppi WhatsApp principali — Lead + Gruppo VIP', date:'2026-05-08', resp:'Miriam' },
+  { id:'t14', phase:'capture', title:'Creare e aggiungere la Welcome Description nei gruppi principali', date:'2026-05-08', resp:'Miriam' },
+  { id:'t15', phase:'capture', title:'✉️ Email 01 · Stesura del testo dell\'email di conferma registrazione', date:'2026-05-11', resp:'Miriam' },
+  { id:'t16', phase:'capture', title:'✉️ Email 01 · Programmazione dell\'email di conferma registrazione su tutti i form', date:'2026-05-11', resp:'Miriam' },
+  { id:'t17', phase:'capture', title:'🖥️ Copy · Pagina di cattura e thank-you page', date:'2026-05-08', resp:'Michele' },
+  { id:'t18', phase:'capture', title:'🖥️ Costruzione della thank-you page', date:'2026-05-09', resp:'Michele' },
+  { id:'t19', phase:'capture', title:'🖥️ Costruzione della pagina di cattura', date:'2026-05-09', resp:'Michele' },
+  { id:'t20', phase:'capture', title:'🖥️ Configurare il pulsante WhatsApp nella thank-you page', date:'2026-05-09', resp:'Michele' },
+  { id:'t21', phase:'capture', title:'Collegare l\'API ufficiale di WhatsApp alla nostra piattaforma (valutare Twilio, ManyChat o soluzione interna)', date:'2026-05-12', resp:'Sandra', effort:10, result:10 },
+  { id:'t22', phase:'capture', title:'Gestire l\'ingresso dei lead nel gruppo WhatsApp: come recuperare i numeri e monitorare la percentuale', date:'2026-05-11', resp:'Sandra', effort:6, result:7 },
+  { id:'t23', phase:'capture', title:'✅ Verificare il pixel su tutte le pagine di cattura', date:'2026-05-11', resp:'Michele' },
+  { id:'t24', phase:'capture', title:'✅ Verificare il pixel sulla thank-you page', date:'2026-05-11', resp:'Michele' },
+  { id:'t25', phase:'capture', title:'💡 Caricare su Drive i creativi che riutilizzeremo nel lancio', date:'2026-05-09', resp:'Ilaria' },
+  { id:'t26', phase:'capture', title:'💡 Creare nuova idea creativa e testo · Lead Generation', date:'2026-05-11', resp:'Ilaria' },
+  { id:'t27', phase:'capture', title:'💡 Registrazione nuovi annunci · Lead Generation', date:'2026-05-11', resp:'Ilaria' },
+  { id:'t28', phase:'capture', title:'💡 Editing degli annunci · Lead Generation', date:'2026-05-11', resp:'Ilaria' },
+  { id:'t29', phase:'capture', title:'💡 Caricare la nuova campagna con gli annunci creati · Lead Generation', date:'2026-05-13', resp:'Michele', effort:4, result:10 },
+  { id:'t30', phase:'capture', title:'🚀 Caricare le nuove campagne', date:'2026-05-12', resp:'Michele', effort:5, result:10 },
+
+  // WARM-UP
+  { id:'t31', phase:'warmup', title:'💡 Analisi generale dello storico campagne › migliori creativi › migliori audience', date:'2026-05-11', resp:'Michele', effort:6, result:10 },
+  { id:'t32', phase:'warmup', title:'💡 Creare nuova idea creativa e testo · Warm-Up', date:'2026-05-12', resp:'Ilaria' },
+  { id:'t33', phase:'warmup', title:'💡 Editing degli annunci · Warm-Up', date:'2026-05-12', resp:'Ilaria' },
+  { id:'t34', phase:'warmup', title:'💡 Caricare la nuova campagna con gli annunci creati · Warm-Up', date:'2026-05-13', resp:'Michele', effort:4, result:10 },
+  { id:'t35', phase:'warmup', title:'⚠️ Verificare che email e messaggi siano stati inviati alla vecchia base lead', date:'2026-05-13', resp:'Miriam', effort:4, result:8 },
+  { id:'t36', phase:'warmup', title:'💬 Stesura testi messaggi ed email · Warm-Up', date:'2026-05-14', resp:'Miriam' },
+  { id:'t37', phase:'warmup', title:'✉️ Programmazione email e messaggi · Warm-Up', date:'2026-05-14', resp:'Miriam' },
+
+  // CPL / PURSUIT
+  { id:'t38', phase:'pursuit', title:'💡 Creare nuova idea creativa e testo · Pursuit', date:'2026-05-14', resp:'Ilaria' },
+  { id:'t39', phase:'pursuit', title:'💡 Editing degli annunci · Pursuit', date:'2026-05-14', resp:'Ilaria' },
+  { id:'t40', phase:'pursuit', title:'💡 Caricare la nuova campagna con gli annunci creati · Pursuit', date:'2026-05-18', resp:'Michele', effort:4, result:10 },
+  { id:'t41', phase:'pursuit', title:'🌟 CPL 1, 2 e 3 — Briefing/analisi copy e Sales Video', date:'2026-05-08', resp:'Sandra', effort:5, result:10 },
+  { id:'t42', phase:'pursuit', title:'🌟 Stesura copy — CPL 1', date:'2026-05-11', resp:'Michele', effort:10, result:10 },
+  { id:'t43', phase:'pursuit', title:'🌟 Stesura copy — CPL 2', date:'2026-05-11', resp:'Michele', effort:10, result:10 },
+  { id:'t44', phase:'pursuit', title:'🌟 Stesura copy — CPL 3', date:'2026-05-12', resp:'Michele', effort:10, result:10 },
+  { id:'t45', phase:'pursuit', title:'🌟 Stesura copy — Sales Video', date:'2026-05-12', resp:'Michele', effort:10, result:10 },
+  { id:'t46', phase:'pursuit', title:'🌟 Registrazione del CPL 1', date:'2026-05-13', resp:'Michele', effort:10, result:10 },
+  { id:'t47', phase:'pursuit', title:'🌟 Registrazione del CPL 2', date:'2026-05-13', resp:'Michele', effort:10, result:10 },
+  { id:'t48', phase:'pursuit', title:'🌟 Registrazione del CPL 3', date:'2026-05-13', resp:'Michele', effort:10, result:10 },
+  { id:'t49', phase:'pursuit', title:'🌟 Registrazione del Sales Video', date:'2026-05-13', resp:'Michele', effort:10, result:10 },
+  { id:'t50', phase:'pursuit', title:'🌟 Creare le thumbnail dei CPL 1, 2, 3 e Sales Video', date:'2026-05-13', resp:'Ilaria', effort:5, result:6 },
+  { id:'t51', phase:'pursuit', title:'🌟 Editing CPL 1', date:'2026-05-14', resp:'Michele', effort:10, result:10 },
+  { id:'t52', phase:'pursuit', title:'🌟 Editing CPL 2', date:'2026-05-18', resp:'Michele', effort:10, result:10 },
+  { id:'t53', phase:'pursuit', title:'🌟 Editing CPL 3', date:'2026-05-20', resp:'Michele', effort:10, result:10 },
+  { id:'t54', phase:'pursuit', title:'🌟 Editing Sales Video', date:'2026-05-22', resp:'Michele', effort:10, result:10 },
+  { id:'t55', phase:'pursuit', title:'🌟 Caricare CPL 1 su YouTube — compilare il link nel foglio URL', date:'2026-05-14', resp:'Ilaria', effort:2, result:10 },
+  { id:'t56', phase:'pursuit', title:'🌟 Caricare CPL 2 su YouTube — compilare il link nel foglio URL', date:'2026-05-18', resp:'Ilaria', effort:2, result:10 },
+  { id:'t57', phase:'pursuit', title:'🌟 Caricare CPL 3 su YouTube — compilare il link nel foglio URL', date:'2026-05-20', resp:'Ilaria', effort:2, result:10 },
+  { id:'t58', phase:'pursuit', title:'🌟 Caricare il Sales Video su YouTube — compilare il link nel foglio URL', date:'2026-05-22', resp:'Ilaria', effort:2, result:10 },
+  { id:'t59', phase:'pursuit', title:'Creare la pagina con i 3 CPL per monitorare le visualizzazioni + aggiungere il pixel di Video View', date:'2026-05-12', resp:'Sandra', effort:5, result:10 },
+  { id:'t60', phase:'pursuit', title:'💬 Stesura testi messaggi ed email · CPL 1 · Pursuit', date:'2026-05-15', resp:'Miriam', effort:3, result:10 },
+  { id:'t61', phase:'pursuit', title:'💬 Stesura testi messaggi ed email · CPL 2 · Pursuit', date:'2026-05-18', resp:'Miriam', effort:3, result:10 },
+  { id:'t62', phase:'pursuit', title:'💬 Stesura testi messaggi ed email · CPL 3 · Pursuit', date:'2026-05-19', resp:'Miriam', effort:3, result:10 },
+  { id:'t63', phase:'pursuit', title:'✉️ Programmazione email e messaggi · CPL 1 · Pursuit', date:'2026-05-15', resp:'Miriam', effort:3, result:10 },
+  { id:'t64', phase:'pursuit', title:'✉️ Programmazione email e messaggi · CPL 2 · Pursuit', date:'2026-05-18', resp:'Miriam', effort:3, result:10 },
+  { id:'t65', phase:'pursuit', title:'✉️ Programmazione email e messaggi · CPL 3 · Pursuit', date:'2026-05-19', resp:'Miriam', effort:3, result:10 },
+
+  // CONVERSION
+  { id:'t66', phase:'conversion', title:'💡 Creare nuova idea creativa e testo · Conversion', date:'2026-05-20', resp:'Ilaria' },
+  { id:'t67', phase:'conversion', title:'💡 Editing degli annunci · Conversion', date:'2026-05-20', resp:'Ilaria' },
+  { id:'t68', phase:'conversion', title:'💡 Caricare la nuova campagna con gli annunci creati · Conversion', date:'2026-05-22', resp:'Michele', effort:4, result:10 },
+  { id:'t69', phase:'conversion', title:'🖥️ Costruzione della Sales Page', date:'2026-05-14', resp:'Michele' },
+  { id:'t70', phase:'conversion', title:'🖥️ Pianificazione del Sales Video sulla Sales Page', date:'2026-05-14', resp:'Michele' },
+  { id:'t71', phase:'conversion', title:'🖥️ Creare il modulo pre-checkout della Sales Page', date:'2026-05-14', resp:'Michele' },
+  { id:'t72', phase:'conversion', title:'🛒 Test dei link · Sales', date:'2026-05-15', resp:'Michele' },
+  { id:'t73', phase:'conversion', title:'💬 Stesura testi messaggi ed email · 1° giorno di vendita', date:'2026-05-15', resp:'Miriam' },
+  { id:'t74', phase:'conversion', title:'✉️ Programmazione messaggi ed email · 1° giorno di vendita', date:'2026-05-15', resp:'Miriam' },
+  { id:'t75', phase:'conversion', title:'💬 Stesura testi messaggi ed email · 2° giorno di vendita', date:'2026-05-18', resp:'Miriam' },
+  { id:'t76', phase:'conversion', title:'✉️ Programmazione messaggi ed email · 2° giorno di vendita', date:'2026-05-18', resp:'Miriam' },
+  { id:'t77', phase:'conversion', title:'💬 Stesura testi messaggi ed email · 3° giorno di vendita', date:'2026-05-19', resp:'Miriam' },
+  { id:'t78', phase:'conversion', title:'✉️ Programmazione messaggi ed email · 3° giorno di vendita', date:'2026-05-19', resp:'Miriam' },
+  { id:'t79', phase:'conversion', title:'💬 Stesura testi messaggi ed email · 4° giorno di vendita', date:'2026-05-20', resp:'Miriam' },
+  { id:'t80', phase:'conversion', title:'✉️ Programmazione messaggi ed email · 4° giorno di vendita', date:'2026-05-20', resp:'Miriam' },
+  { id:'t81', phase:'conversion', title:'💬 Stesura testi messaggi ed email · 5° giorno di vendita', date:'2026-05-21', resp:'Miriam' },
+  { id:'t82', phase:'conversion', title:'✉️ Programmazione messaggi ed email · 5° giorno di vendita', date:'2026-05-21', resp:'Miriam' },
+  { id:'t83', phase:'conversion', title:'🌐 Temi delle Live di conversione', date:'2026-05-14', resp:'Michele', effort:3, result:6 },
+  { id:'t84', phase:'conversion', title:'🌐 Live di conversione — Giorno 1', date:'2026-05-18', resp:'Michele', effort:5, result:8 },
+  { id:'t85', phase:'conversion', title:'🌐 Live di conversione — Giorno 2', date:'2026-05-19', resp:'Michele', effort:5, result:8 },
+  { id:'t86', phase:'conversion', title:'🌐 Live di conversione — Giorno 3', date:'2026-05-20', resp:'Michele', effort:5, result:8 },
+  { id:'t87', phase:'conversion', title:'🌐 Live di conversione — Giorno 4', date:'2026-05-21', resp:'Michele', effort:5, result:8 },
+  { id:'t88', phase:'conversion', title:'🌐 Live di conversione — Giorno 5', date:'2026-05-22', resp:'Michele', effort:5, result:8 },
+  { id:'t89', phase:'conversion', title:'💳 Verifica pagamenti Stripe — Giorno 1', date:'2026-05-18', resp:'Michele' },
+  { id:'t90', phase:'conversion', title:'💳 Verifica pagamenti Stripe — Giorno 2', date:'2026-05-19', resp:'Michele' },
+  { id:'t91', phase:'conversion', title:'💳 Verifica pagamenti Stripe — Giorno 3', date:'2026-05-20', resp:'Michele' },
+  { id:'t92', phase:'conversion', title:'💳 Verifica pagamenti Stripe — Giorno 4', date:'2026-05-21', resp:'Michele' },
+  { id:'t93', phase:'conversion', title:'💳 Verifica pagamenti Stripe — Giorno 5', date:'2026-05-22', resp:'Michele' },
+
+  // POST-LANCIO
+  { id:'t94', phase:'post', title:'🌐 Salvare tutte le live e archiviarle su Drive', date:'2026-05-22', resp:'Ilaria', effort:3, result:7 },
+  { id:'t95', phase:'post', title:'📲 Impostare i link dei CPL come PRIVATI su YouTube', date:'2026-05-18', resp:'Ilaria' },
+  { id:'t96', phase:'post', title:'📲 Inviare i bonus a chi ha acquistato il primo giorno', date:'2026-05-18', resp:'Miriam' },
+  { id:'t97', phase:'post', title:'🖥️ Creare la pagina della lista d\'attesa', date:'2026-05-20', resp:'Miriam' },
+  { id:'t98', phase:'post', title:'💬 Creare il gruppo WhatsApp della lista d\'attesa', date:'2026-05-20', resp:'Miriam' },
+  { id:'t99', phase:'post', title:'🖥️ Reindirizzare la Sales Page alla pagina della lista d\'attesa', date:'2026-05-22', resp:'Miriam' },
+  { id:'t100', phase:'post', title:'📋 Confermare la lista degli studenti', date:'2026-05-22', resp:'Jessica' },
+];
+
+const RESPONSABILI = ['Michele','Sandra','Miriam','Ilaria','Jessica'];
+const STORAGE_KEY = 'mm_lancio_mag26_v1';
+const USER_KEY = 'mm_lancio_mag26_user';
+
+/* ============= STATE ============= */
+function loadState(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(!raw) return cloneSeed();
+    const saved = JSON.parse(raw);
+    /* merge: keep new seed tasks if added later */
+    const map = new Map(saved.tasks.map(t=>[t.id,t]));
+    const merged = SEED.map(s=>({...s, ...(map.get(s.id)||{})}));
+    /* preserve user-added tasks (not in seed) */
+    const extras = saved.tasks.filter(t=>!SEED.find(s=>s.id===t.id));
+    return { tasks:[...merged, ...extras] };
+  }catch(e){ return cloneSeed(); }
+}
+function cloneSeed(){ return { tasks: SEED.map(t=>({...t})) }; }
+function saveState(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+
+let state = loadState();
+let filters = { resp:'all', status:'all' };
+let currentUser = localStorage.getItem(USER_KEY) || '';
+
+/* ============= RENDER ============= */
+const $stats = document.getElementById('stats');
+const $phases = document.getElementById('phases');
+const $userSel = document.getElementById('currentUser');
+const $userTag = document.getElementById('userTag');
+
+function fmtDate(iso){
+  if(!iso) return '';
+  const [y,m,d] = iso.split('-');
+  if(!d) return iso;
+  return `${d}/${m}/${y}`;
+}
+
+function renderStats(){
+  const total = state.tasks.length;
+  const done = state.tasks.filter(t=>t.done).length;
+  const pct = total ? Math.round(done/total*100) : 0;
+  const today = new Date().toISOString().slice(0,10);
+  const dueSoon = state.tasks.filter(t=>!t.done && t.date && t.date <= today).length;
+
+  $stats.innerHTML = `
+    <div class="stat"><div class="num">${total}</div><div class="lbl">Attività totali</div></div>
+    <div class="stat"><div class="num"><span class="gold">${done}</span> / ${total}</div><div class="lbl">Completate</div></div>
+    <div class="stat"><div class="num">${pct}<span style="font-size:14px;color:var(--text-muted)">%</span></div><div class="lbl">Avanzamento</div></div>
+    <div class="stat"><div class="num">${dueSoon}</div><div class="lbl">Da fare oggi/scadute</div></div>
+  `;
+}
+
+function visibleTasks(){
+  return state.tasks.filter(t=>{
+    if(t.deleted) return false;
+    if(filters.resp !== 'all' && t.resp !== filters.resp) return false;
+    if(filters.status === 'open' && t.done) return false;
+    if(filters.status === 'done' && !t.done) return false;
+    return true;
+  });
+}
+
+function renderPhases(){
+  const tasks = visibleTasks();
+  $phases.innerHTML = '';
+  PHASES.forEach(ph=>{
+    const items = tasks.filter(t=>t.phase===ph.id);
+    if(items.length === 0 && (filters.resp!=='all' || filters.status!=='all')) return;
+    const section = document.createElement('section');
+    section.className = 'phase';
+    section.innerHTML = `
+      <div class="phase-head">
+        <h2 class="phase-title"><span class="dot"></span> ${ph.name}</h2>
+        <span class="phase-meta">${items.length} attività</span>
+      </div>
+      <div class="phase-list" data-phase="${ph.id}"></div>
+      <div class="add-task" data-add="${ph.id}">+ Aggiungi attività in questa fase</div>
+    `;
+    const list = section.querySelector('.phase-list');
+    items.forEach(t=>list.appendChild(taskCard(t)));
+    $phases.appendChild(section);
+  });
+}
+
+function taskCard(t){
+  const el = document.createElement('div');
+  el.className = 'task' + (t.done?' done':'');
+  el.dataset.id = t.id;
+  const respCls = t.resp ? `resp-${t.resp}` : 'resp-none';
+  const respLbl = t.resp || '— senza —';
+  el.innerHTML = `
+    <input type="checkbox" class="task-check" ${t.done?'checked':''} data-act="toggle" />
+    <div class="task-body">
+      <textarea class="task-title" rows="1" data-field="title">${escapeHtml(t.title||'')}</textarea>
+      <div class="task-meta">
+        <select class="resp ${respCls}" data-field="resp" style="appearance:none">
+          <option value="">— senza —</option>
+          ${RESPONSABILI.map(r=>`<option ${t.resp===r?'selected':''}>${r}</option>`).join('')}
+        </select>
+        <input type="date" class="resp resp-none" data-field="date" value="${t.date||''}" style="font-size:11px;padding:3px 8px"/>
+      </div>
+      <div class="inputs">
+        <div class="field">
+          <label>Note / osservazioni</label>
+          <textarea data-field="note" rows="1" placeholder="Aggiungi una nota...">${escapeHtml(t.note||'')}</textarea>
+        </div>
+        <div class="field">
+          <label>Sforzo (1-10)</label>
+          <input type="number" min="1" max="10" data-field="effort" value="${t.effort??''}" placeholder="—" />
+        </div>
+        <div class="field">
+          <label>Risultato (1-10)</label>
+          <input type="number" min="1" max="10" data-field="result" value="${t.result??''}" placeholder="—" />
+        </div>
+        <div class="field" style="justify-content:flex-end">
+          <label>&nbsp;</label>
+          <button class="btn danger" data-act="delete" title="Elimina questa attività">Elimina</button>
+        </div>
+      </div>
+    </div>
+  `;
+  /* Auto-grow title textarea */
+  const ta = el.querySelector('textarea[data-field="title"]');
+  setTimeout(()=>autoGrow(ta), 0);
+  ta.addEventListener('input', ()=>autoGrow(ta));
+  return el;
+}
+
+function autoGrow(el){
+  el.style.height = 'auto';
+  el.style.height = (el.scrollHeight)+'px';
+}
+
+function escapeHtml(s){
+  return String(s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+/* ============= EVENTS ============= */
+$phases.addEventListener('change', e=>{
+  const card = e.target.closest('.task');
+  if(!card) return;
+  const id = card.dataset.id;
+  const t = state.tasks.find(x=>x.id===id);
+  if(!t) return;
+  if(e.target.dataset.act === 'toggle'){
+    t.done = e.target.checked;
+    card.classList.toggle('done', t.done);
+    saveState(); renderStats();
+    return;
+  }
+  const field = e.target.dataset.field;
+  if(field){
+    let val = e.target.value;
+    if(field === 'effort' || field === 'result'){
+      val = val === '' ? null : Math.max(1, Math.min(10, parseInt(val,10)||0));
+      if(val !== null) e.target.value = val;
+    }
+    t[field] = val;
+    if(field === 'resp'){
+      const sel = e.target;
+      sel.className = 'resp ' + (val ? `resp-${val}` : 'resp-none');
+    }
+    saveState();
+  }
+});
+$phases.addEventListener('input', e=>{
+  const card = e.target.closest('.task');
+  if(!card) return;
+  const id = card.dataset.id;
+  const t = state.tasks.find(x=>x.id===id);
+  if(!t) return;
+  const field = e.target.dataset.field;
+  if(field === 'title' || field === 'note'){
+    t[field] = e.target.value;
+    saveState();
+  }
+});
+$phases.addEventListener('click', e=>{
+  if(e.target.dataset.act === 'delete'){
+    const card = e.target.closest('.task');
+    const id = card.dataset.id;
+    const t = state.tasks.find(x=>x.id===id);
+    if(!t) return;
+    const motivo = prompt(`Motivo per eliminare "${t.title.slice(0,60)}"?`);
+    if(motivo === null) return;
+    t.deleted = true;
+    t.deleteReason = motivo;
+    t.deletedBy = currentUser || 'anonimo';
+    saveState();
+    renderPhases(); renderStats();
+    return;
+  }
+  if(e.target.dataset.add){
+    const phase = e.target.dataset.add;
+    const newId = 'u' + Date.now();
+    const newTask = {
+      id:newId, phase, title:'Nuova attività', date:'', resp: currentUser || '',
+      addedBy: currentUser || 'anonimo'
+    };
+    state.tasks.push(newTask);
+    saveState(); renderPhases(); renderStats();
+    /* focus on title */
+    setTimeout(()=>{
+      const card = document.querySelector(`.task[data-id="${newId}"]`);
+      if(card){
+        card.scrollIntoView({behavior:'smooth', block:'center'});
+        const ta = card.querySelector('textarea[data-field="title"]');
+        if(ta){ ta.focus(); ta.select(); }
+      }
+    }, 50);
+  }
+});
+
+/* Filters */
+document.querySelectorAll('.chip').forEach(c=>{
+  c.addEventListener('click', ()=>{
+    const f = c.dataset.filter;
+    const v = c.dataset.value;
+    document.querySelectorAll(`.chip[data-filter="${f}"]`).forEach(x=>x.classList.remove('active'));
+    c.classList.add('active');
+    filters[f] = v;
+    renderPhases();
+  });
+});
+
+/* User */
+$userSel.value = currentUser;
+$userTag.textContent = currentUser ? `· ${currentUser}` : '';
+$userSel.addEventListener('change', ()=>{
+  currentUser = $userSel.value;
+  localStorage.setItem(USER_KEY, currentUser);
+  $userTag.textContent = currentUser ? `· ${currentUser}` : '';
+});
+
+/* Reset */
+document.getElementById('resetBtn').addEventListener('click', ()=>{
+  if(confirm('Cancellare tutte le modifiche locali e ripristinare la lista originale?')){
+    localStorage.removeItem(STORAGE_KEY);
+    state = cloneSeed();
+    renderStats(); renderPhases();
+  }
+});
+
+/* INIT */
+renderStats();
+renderPhases();
+</script>
+</body>
+</html>
